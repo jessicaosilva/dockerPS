@@ -1,0 +1,14 @@
+# Use a imagem oficial do PHP como base
+FROM php:7.4
+
+# Defina o diretório de trabalho dentro do contêiner
+WORKDIR /var/www/html
+
+# Copie o código PHP para o contêiner
+COPY . /var/www/html
+
+# Exponha a porta 80 para o mundo exterior (ajuste conforme necessário)
+EXPOSE 80
+
+# Comando para iniciar o servidor web PHP embutido
+CMD ["php", "-S", "0.0.0.0:80"]
