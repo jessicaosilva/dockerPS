@@ -1,0 +1,7 @@
+# Aplicacao
+front/
+
+# Docker Vetor
+front-docker-files/nginx-logs/
+front-docker-files/php-logs/
+front-docker-files/mysql/
