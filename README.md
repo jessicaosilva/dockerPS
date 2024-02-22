@@ -11,7 +11,7 @@ Siga os passos abaixo para clonar o repositório, entrar no diretório e iniciar
    Ainda no terminal e execute o seguinte comando para mudar de pasta e entrar no projeto clonado:
 
    ```bash
-   cd docker
+   cd dockerPS
 3. **Iniciar o Docker Compose:**
    Execute o seguinte comando para iniciar o Docker Compose e levantar os serviços em segundo plano:
 
