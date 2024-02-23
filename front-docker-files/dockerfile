@@ -1,5 +1,5 @@
-# Use a imagem oficial do PHP como base
-FROM php:7.4
+# Use a imagem oficial do PHP com FPM
+FROM php:7.4-fpm
 
 # Defina o diretório de trabalho dentro do contêiner
 WORKDIR /var/www/html
@@ -7,22 +7,23 @@ WORKDIR /var/www/html
 # Copie o código PHP para o contêiner
 COPY . /var/www/html
 
-# Other setup instructions
+# Instale dependências
 RUN apt-get update && \
     apt-get install -y \
         libzip-dev \
         zip \
-        p7zip-full \ 
+        p7zip-full \
         unzip \
         git \
         curl 
 
+# Instale Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Instale extensões PHP
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Exponha a porta 80 para o mundo exterior (ajuste conforme necessário)
-EXPOSE 80
-
-# Comando para iniciar o servidor web PHP embutido
-CMD ["php", "-S", "0.0.0.0:80"]
+# Criação dos diretórios e definição de permissões
+RUN mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache && \
+    chown -R www-data:www-data storage bootstrap/cache && \
+    chmod -R 775 storage bootstrap/cache

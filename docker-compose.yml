@@ -2,23 +2,30 @@ version: "3.2"
 
 services:
   php:
-    container_name: front
     build: ./front-docker-files
-    ports:
-      - 80:80
     volumes:
       - ./front/piloto:/var/www/html/
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./front/piloto:/var/www/html:ro
+      - ./front-docker-files/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php
 
   mysql:
-    container_name: mysql
     image: mysql:5.7
     command: --max_allowed_packet=1073741824 --sql_mode=""
     ports:
-    - 3306:3306
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: passwordRoot
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: app
       MYSQL_TCP_PORT: 3306
-    
