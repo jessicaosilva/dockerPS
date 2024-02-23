@@ -4,50 +4,21 @@ services:
   php:
     container_name: front
     build: ./front-docker-files
-    expose:
-      - "9002"
-      - "9001"
-      - "9003"
-      - "80"
-      - "443"
     ports:
-      - "80:80"
-      - "443:443"
+      - 80:80
     volumes:
       - ./front/piloto:/var/www/html/
-      - ./front-docker-files/nginx-logs/:/var/log/nginx/
-      - ./front-docker-files/php-logs:/var/log/php/
-    extra_hosts:
-      - "front.test:11.6.0.7"
-    networks:
-      default:
-        ipv4_address: 11.6.0.2
 
   mysql:
     container_name: mysql
     image: mysql:5.7
     command: --max_allowed_packet=1073741824 --sql_mode=""
     ports:
-      - "3306:3306"
-    expose:
-      - "3306"
-    volumes:
-      - ./front-docker-files/mysql/data/:/var/lib/mysql
-      - ./front-docker-files/mysql/dump:/docker-entrypoint-initdb.d
+    - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: passwordRoot
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_DATABASE: app
       MYSQL_TCP_PORT: 3306
-    networks:
-      default:
-        ipv4_address: 11.6.0.3
-
-networks: 
-  default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 11.6.0.0/16
-          gateway: 11.6.0.1
+    
