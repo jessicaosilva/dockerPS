@@ -7,6 +7,20 @@ WORKDIR /var/www/html
 # Copie o código PHP para o contêiner
 COPY . /var/www/html
 
+# Other setup instructions
+RUN apt-get update && \
+    apt-get install -y \
+        libzip-dev \
+        zip \
+        p7zip-full \ 
+        unzip \
+        git \
+        curl 
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN docker-php-ext-install pdo pdo_mysql
+
 # Exponha a porta 80 para o mundo exterior (ajuste conforme necessário)
 EXPOSE 80
 
